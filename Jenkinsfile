@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url:'https://github.com/neetha5/progMav.git',
+                git branch: 'master', url:'https://github.com/neetha5/progMav.git',
                 credentialsId: 'github-token'
             }
         }
