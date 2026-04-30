@@ -10,8 +10,9 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'master', url:'https://github.com/neetha5/progMav.git',
-                credentialsId: 'github-token'
+                git branch: 'main',
+                    url: 'https://github.com/Naveen04jan/ven.git',
+                    credentialsId: 'github-token'
             }
         }
 
@@ -31,13 +32,32 @@ pipeline {
             steps {
                 sh 'mvn package'
             }
-        
-        
         }
+
         stage('Run Application') {
             steps {
                 sh 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
             }
+        }
+    }
+
+    
+    post {
+
+        success {
+            emailext (
+                subject: "SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: "Build succeeded!\nCheck: ${BUILD_URL}",
+                to: "naveenmys64@gmail.com"
+            )
+        }
+
+        failure {
+            emailext (
+                subject: "FAILED: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: "Build failed!\nCheck: ${BUILD_URL}",
+                to: "naveenmys64@gmail.com"
+            )
         }
     }
 }
